@@ -22,3 +22,6 @@ webpack.generated.js
 /src/main/resources/rebel.xml
 
 pakastin-2-year.json
+
+# Environment configuration file
+.env

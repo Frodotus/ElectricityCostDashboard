@@ -51,7 +51,36 @@ To remove it:
 docker remove postgres-liukuri
 ```
 
+## Running the Project with Docker Compose
 
+To run the project using Docker Compose, follow these steps:
+
+1. Ensure you have Docker and Docker Compose installed on your machine.
+
+2. Copy the `.env.example` file to `.env`:
+
+    ```sh
+    cp .env.example .env
+    ```
+
+3. Open the `.env` file and update the placeholder values with your actual configuration:
+
+4. Build and start the containers using Docker Compose:
+
+    ```sh
+    docker-compose up --build
+    ```
+
+5. Access the application:
+
+    - The application will be available at `http://localhost:8080`.
+    - The PostgreSQL database will be available at `localhost:5432`.
+
+6. To stop the containers, press `Ctrl+C` in the terminal where Docker Compose is running, or run:
+
+    ```sh
+    docker-compose down
+    ```
 
 ## Deploying to Production
 

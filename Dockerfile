@@ -6,18 +6,17 @@
 #
 # Uses Docker Multi-stage builds: https://docs.docker.com/build/building/multi-stage/
 
-# The "Build" stage. Copies the entire project into the container, into the /vaadin-embedded-jetty-gradle/ folder, and builds it.
-#FROM openjdk:17 AS BUILD
-#COPY . /app/
-#WORKDIR /app/
-#ARG offlinekey
-#ENV VAADIN_OFFLINE_KEY=$offlinekey
-#RUN ./mvnw clean test package -Pproduction
-# At this point, we have the app (executable jar file):  /app/target/froniusvizualizer-1.0-SNAPSHOT.jar
+# The "Build" stage. Copies the entire project into the container, into the /app/ folder, and builds it.
+FROM eclipse-temurin:21 AS BUILD
+COPY . /app/
+WORKDIR /app/
+ARG offlinekey
+ENV VAADIN_OFFLINE_KEY=$offlinekey
+RUN ./mvnw clean test package -Pproduction
 
 # The "Run" stage. Start with a clean image, and copy over just the app itself, omitting gradle, npm and any intermediate build files.
 FROM eclipse-temurin:21-jre
-COPY target/froniusvizualizer-1.0-SNAPSHOT.jar /app/
+COPY --from=BUILD /app/target/froniusvizualizer-1.0-SNAPSHOT.jar /app/
 COPY observability-kit-agent-3.0-SNAPSHOT.jar /app/
 COPY agent.properties /app/
 WORKDIR /app/
